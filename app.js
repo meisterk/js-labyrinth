@@ -6,8 +6,7 @@ class Kasten {
         this.rahmenlinks = false;
         
         this.nachbarn = [];
-        this.zustand = 'unbesucht';
-        this.text = "X";
+        this.zustand = '⋅';        
     }
 }
 
@@ -18,11 +17,7 @@ const WAHRSCHEINLICHKEIT = 0.21;
 const App = {
     data(){
         return {
-            board: [
-                [ 1, 2, 3] ,
-                [4,5,6],
-                [7,8,9]
-            ]
+            board: []
         }
     },
     methods:{
