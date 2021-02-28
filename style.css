@@ -1,21 +1,22 @@
 table{
+    box-sizing: border-box;
     border-collapse: collapse;
 }
 td {
-    width: 50px;
-    height: 50px;
+    width: 10px;
+    height: 10px;
     background-color:azure;
     text-align: center;
 }
 .rahmenoben {
-    border-top: solid 5px black;
+    border-top: solid 2px black;
 }
 .rahmenrechts {
-    border-right: solid 5px black;
+    border-right: solid 2px black;
 }
 .rahmenunten {
-    border-bottom: solid 5px black;
+    border-bottom: solid 2px black;
 }
 .rahmenlinks {
-    border-left: solid 5px black;
+    border-left: solid 2px black;
 }
