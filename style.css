@@ -8,15 +8,15 @@ td {
     background-color:azure;
     text-align: center;
 }
-.rahmenoben {
+.rahmen-oben {
     border-top: solid 2px black;
 }
-.rahmenrechts {
+.rahmen-rechts {
     border-right: solid 2px black;
 }
-.rahmenunten {
+.rahmen-unten {
     border-bottom: solid 2px black;
 }
-.rahmenlinks {
+.rahmen-links {
     border-left: solid 2px black;
 }

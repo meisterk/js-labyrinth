@@ -14,11 +14,11 @@
             <tr v-for="zeile in board">
                 <td v-for="kasten in zeile"
                     :class="{ 
-                        rahmenoben: kasten.rahmenoben,
-                        rahmenrechts: kasten.rahmenrechts,
-                        rahmenunten: kasten.rahmenunten,
-                        rahmenlinks: kasten.rahmenlinks 
-                    }">{{ kasten.zustand }}</td>
+                        'rahmen-oben': kasten.rahmenOben,
+                        'rahmen-rechts': kasten.rahmenRechts,
+                        'rahmen-unten': kasten.rahmenUnten,
+                        'rahmen-links': kasten.rahmenLinks 
+                    }">{{ kasten.nachbarn.length }}</td>
             </tr>
         </table>
     </div>
