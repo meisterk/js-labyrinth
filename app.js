@@ -13,7 +13,7 @@ class Kasten {
 
 const BREITE = 10;
 const HOEHE = 10;
-const WAHRSCHEINLICHKEIT = 0.2;
+const WAHRSCHEINLICHKEIT = 0.21;
 
 const App = {
     data(){
