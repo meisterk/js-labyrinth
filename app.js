@@ -86,26 +86,24 @@ const App = {
                 }
             }
         },
-        labyrinthLoesen(){
+        labyrinthLoesenDFS(){
             const start = this.board[0][0];
             const ziel = this.board[HOEHE-1][BREITE-1];
 
-            let aktuell = start;
-            aktuell.zustand = 'X';
-            this.stack.push(aktuell);            
-            do{
-                const anzahlNachbarn = aktuell.nachbarn.length;
-                if(anzahlNachbarn > 0){
-                    // aktuell hat noch mindestens einen unbesuchten Nachbarn
-                    const nachbar = aktuell.nachbarn.pop();
-                    nachbar.zustand = 'X';
-                    this.stack.push(nachbar);
-                    aktuell = nachbar;
-                }else{
-                    // aktuell hat keine Nachbarn                    
-                    aktuell = this.stack.pop();
-                }                              
-            }while(this.stack.length>0 && aktuell!==ziel);
+            let aktuell = start;            
+            this.stack.push(aktuell);
+            while(this.stack.length>0 && aktuell!==ziel){                
+                aktuell = this.stack.pop();
+
+                if(aktuell.zustand != 'X'){ // noch nicht besucht
+                    aktuell.zustand = 'X';
+                    
+                    while(aktuell.nachbarn.length > 0){
+                        const nachbar = aktuell.nachbarn.pop();
+                        this.stack.push(nachbar);
+                    }
+                }                           
+            };
             if(aktuell===ziel){
                 this.gefunden = true;
             }          
@@ -122,7 +120,7 @@ const App = {
         this.rahmenSetzen();
         this.layrinthSetzen();
         this.nachbarnFinden();
-        this.labyrinthLoesen();
+        this.labyrinthLoesenDFS();
     }
 };
 Vue.createApp(App).mount('#app');
