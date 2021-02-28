@@ -17,7 +17,9 @@ const WAHRSCHEINLICHKEIT = 0.21;
 const App = {
     data(){
         return {
-            board: []
+            board: [],
+            stack: [],
+            gefunden: false
         }
     },
     methods:{
@@ -53,38 +55,60 @@ const App = {
             for(let zeile = 0; zeile < HOEHE; zeile++){                
                 for(let spalte = 0; spalte < BREITE; spalte++){
                     const kasten = this.board[zeile][spalte];
-
-                    let oben = null;
+                    
                     if(zeile>0){
-                        oben = this.board[zeile-1][spalte];
-                        if(!kasten.rahmenOben && ! oben.rahmenUnten){
+                        let oben = this.board[zeile-1][spalte];
+                        if(!kasten.rahmenOben && !oben.rahmenUnten){
                             kasten.nachbarn.push(oben);
                         }
                     } 
-                    let rechts = null;
+                    
                     if(spalte<BREITE-1){
-                        rechts = this.board[zeile][spalte+1];
-                        if(!kasten.rahmenRechts && ! rechts.rahmenLinks){
+                        let rechts = this.board[zeile][spalte+1];
+                        if(!kasten.rahmenRechts && !rechts.rahmenLinks){
                             kasten.nachbarn.push(rechts);
                         }
-                    } 
-                     
-                    let unten = null;
+                    }                     
+                    
                     if(zeile<HOEHE-1){
-                        unten = this.board[zeile+1][spalte];
-                        if(!kasten.rahmenUnten && ! unten.rahmenOben){
+                        let unten = this.board[zeile+1][spalte];
+                        if(!kasten.rahmenUnten && !unten.rahmenOben){
                             kasten.nachbarn.push(unten);
                         }
                     } 
-                    let links = null;
+                    
                     if(spalte>0){
-                        links = this.board[zeile][spalte-1];
-                        if(!kasten.rahmenLinks && ! links.rahmenOben){
-                            kasten.nachbarn.push(unten);
+                        let links = this.board[zeile][spalte-1];
+                        if(!kasten.rahmenLinks && !links.rahmenRechts){
+                            kasten.nachbarn.push(links);
                         }
                     }                     
                 }
             }
+        },
+        labyrinthLoesen(){
+            const start = this.board[0][0];
+            const ziel = this.board[HOEHE-1][BREITE-1];
+
+            let aktuell = start;
+            aktuell.zustand = 'X';
+            this.stack.push(aktuell);            
+            do{
+                const anzahlNachbarn = aktuell.nachbarn.length;
+                if(anzahlNachbarn > 0){
+                    // aktuell hat noch mindestens einen unbesuchten Nachbarn
+                    const nachbar = aktuell.nachbarn.pop();
+                    nachbar.zustand = 'X';
+                    this.stack.push(nachbar);
+                    aktuell = nachbar;
+                }else{
+                    // aktuell hat keine Nachbarn                    
+                    aktuell = this.stack.pop();
+                }                              
+            }while(this.stack.length>0 && aktuell!==ziel);
+            if(aktuell===ziel){
+                this.gefunden = true;
+            }          
         }
     },
     mounted(){     
@@ -98,6 +122,7 @@ const App = {
         this.rahmenSetzen();
         this.layrinthSetzen();
         this.nachbarnFinden();
+        this.labyrinthLoesen();
     }
 };
 Vue.createApp(App).mount('#app');

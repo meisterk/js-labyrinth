@@ -18,9 +18,11 @@
                         'rahmen-rechts': kasten.rahmenRechts,
                         'rahmen-unten': kasten.rahmenUnten,
                         'rahmen-links': kasten.rahmenLinks 
-                    }">{{ kasten.nachbarn.length }}</td>
+                    }">{{ kasten.zustand }}</td>
             </tr>
         </table>
+        <p v-if="gefunden">Ich habe einen Weg gefunden!</p>
+        <p v-else>Es gibt leider keinen Weg.</p>
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="app.js"></script>
