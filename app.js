@@ -28,7 +28,6 @@ const App = {
     data(){
         return {
             board: [],
-            stack: [],
             pathExists: false,
             boardwidth: WIDTH
         }
@@ -108,18 +107,19 @@ const App = {
                 }
             }
         },
-        findPathDFS(start, destination){            
+        findPathDFS(start, destination){   
+            const stack = [];         
             let current = start;            
-            this.stack.push(current);
+            stack.push(current);
 
-            while(this.stack.length>0 && current!==destination){                
-                current = this.stack.pop();
+            while(stack.length>0 && current!==destination){                
+                current = stack.pop();
 
                 if(!current.visited){
                     current.visited = true;                   
 
                     current.neighbors.forEach(neighbor => {
-                        this.stack.push(neighbor);
+                        stack.push(neighbor);
                     });                    
                 }                           
             };
