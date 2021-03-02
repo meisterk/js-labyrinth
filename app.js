@@ -1,8 +1,8 @@
 const WIDTH = 20;
 const HEIGHT = 20;
 const PROBABILITY = 0.21;
-const STATE_VISITED = '⋅';
-const STATE_NOT_VISITED = ' ';
+const STATE_VISITED = '\uD83D\uDE42'; // :)
+const STATE_NOT_VISITED = '⋅';
 
 class Cell {
     constructor(){
