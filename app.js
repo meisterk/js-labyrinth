@@ -128,6 +128,28 @@ const App = {
             }else{
                 this.pathExists = false;
             }          
+        },
+        findPathBFS(start, destination){   
+            const queue = [];         
+            let current = start;            
+            queue.push(current); // enqueue
+            current.visited = true;
+
+            while(queue.length > 0 && current!==destination){                
+                current = queue.shift(); // dequeue                                 
+
+                current.neighbors.forEach(neighbor => {
+                    if(!neighbor.visited){
+                        queue.push(neighbor); // enqueue
+                        neighbor.visited = true;
+                    }                    
+                });                                              
+            };
+            if(current===destination){
+                this.pathExists = true;
+            }else{
+                this.pathExists = false;
+            }          
         }
     },
     mounted(){     
@@ -140,7 +162,7 @@ const App = {
         // Find path from start to destination
         const start = this.board[0][0];
         const destination = this.board[HEIGHT-1][WIDTH-1];
-        this.findPathDFS(start, destination);
+        this.findPathBFS(start, destination);
     }
 };
 Vue.createApp(App).mount('#app');
