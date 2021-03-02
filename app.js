@@ -1,8 +1,8 @@
 const WIDTH = 20;
 const HEIGHT = 20;
 const PROBABILITY = 0.21;
-const STATE_VISITED = '\uD83D\uDE42'; // :)
-const STATE_NOT_VISITED = '⋅';
+const SYMBOL_VISITED = '\uD83D\uDE42'; // :)
+const SYMBOL_NOT_VISITED = '⋅';
 
 class Cell {
     constructor(){
@@ -11,8 +11,16 @@ class Cell {
         this.borderBottom = false;
         this.borderLeft = false;
         
-        this.neighbors = [];
-        this.state = STATE_NOT_VISITED;
+        this.visited = false;
+        this.neighbors = [];        
+    }
+
+    getSymbol(){
+        if(this.visited){
+            return SYMBOL_VISITED;
+        }else{
+            return SYMBOL_NOT_VISITED;
+        }
     }
 }
 
@@ -21,7 +29,8 @@ const App = {
         return {
             board: [],
             stack: [],
-            pathExists: false
+            pathExists: false,
+            boardwidth: WIDTH
         }
     },
     methods:{
@@ -35,10 +44,12 @@ const App = {
             }
         },
         setBoardBorders(){
-            for(let column = 0; column < WIDTH; column++){
-                this.board[0][column].borderTop = true;
-                this.board[HEIGHT-1][column].borderBottom = true;
+            for(let column = 1; column < WIDTH; column++){
+                this.board[0][column].borderTop = true;                
             }
+            for(let column = 0; column < WIDTH-1; column++){                
+                this.board[HEIGHT-1][column].borderBottom = true;
+            }            
             for(let row = 0; row < HEIGHT; row++){
                 this.board[row][0].borderLeft = true;
                 this.board[row][WIDTH-1].borderRight = true;
@@ -104,8 +115,8 @@ const App = {
             while(this.stack.length>0 && current!==destination){                
                 current = this.stack.pop();
 
-                if(current.state != STATE_VISITED){
-                    current.state = STATE_VISITED;                   
+                if(!current.visited){
+                    current.visited = true;                   
 
                     current.neighbors.forEach(neighbor => {
                         this.stack.push(neighbor);

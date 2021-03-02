@@ -11,6 +11,7 @@
     <h1>Labyrinth</h1>
     <div id="app">
         <table>
+            <tr><th v-bind:colspan="boardwidth" class="start">START</th></tr>
             <tr v-for="row in board">
                 <td v-for="cell in row"
                     :class="{ 
@@ -18,8 +19,9 @@
                         'border-right': cell.borderRight,
                         'border-bottom': cell.borderBottom,
                         'border-left': cell.borderLeft 
-                    }">{{ cell.state }}</td>
+                    }">{{ cell.getSymbol() }}</td>
             </tr>
+            <tr><th v-bind:colspan="boardwidth" class="destination">ZIEL</th></tr>
         </table>
         <p v-if="pathExists">Ich habe einen Weg gefunden!</p>
         <p v-else>Es gibt leider keinen Weg.</p>
