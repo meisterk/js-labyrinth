@@ -11,17 +11,17 @@
     <h1>Labyrinth</h1>
     <div id="app">
         <table>
-            <tr v-for="zeile in board">
-                <td v-for="kasten in zeile"
+            <tr v-for="row in board">
+                <td v-for="cell in row"
                     :class="{ 
-                        'rahmen-oben': kasten.rahmenOben,
-                        'rahmen-rechts': kasten.rahmenRechts,
-                        'rahmen-unten': kasten.rahmenUnten,
-                        'rahmen-links': kasten.rahmenLinks 
-                    }">{{ kasten.zustand }}</td>
+                        'border-top': cell.borderTop,
+                        'border-right': cell.borderRight,
+                        'border-bottom': cell.borderBottom,
+                        'border-left': cell.borderLeft 
+                    }">{{ cell.state }}</td>
             </tr>
         </table>
-        <p v-if="gefunden">Ich habe einen Weg gefunden!</p>
+        <p v-if="pathExists">Ich habe einen Weg gefunden!</p>
         <p v-else>Es gibt leider keinen Weg.</p>
     </div>
     <script src="https://unpkg.com/vue@next"></script>

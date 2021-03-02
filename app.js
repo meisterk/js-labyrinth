@@ -1,126 +1,126 @@
-class Kasten {
+const WIDTH = 20;
+const HEIGHT = 20;
+const PROBABILITY = 0.21;
+
+class Cell {
     constructor(){
-        this.rahmenOben = false;
-        this.rahmenRechts = false;
-        this.rahmenUnten = false;
-        this.rahmenLinks = false;
+        this.borderTop = false;
+        this.borderRight = false;
+        this.borderBottom = false;
+        this.borderLeft = false;
         
-        this.nachbarn = [];
-        this.zustand = '⋅';        
+        this.neighbors = [];
+        this.state = '⋅'; // '.' = not visited, 'X' = visited       
     }
 }
-
-const BREITE = 20;
-const HOEHE = 20;
-const WAHRSCHEINLICHKEIT = 0.21;
 
 const App = {
     data(){
         return {
             board: [],
             stack: [],
-            gefunden: false
+            pathExists: false
         }
     },
     methods:{
-        rahmenSetzen(){
-            for(let spalte = 0; spalte < BREITE; spalte++){
-                this.board[0][spalte].rahmenOben = true;
-                this.board[HOEHE-1][spalte].rahmenUnten = true;
+        setBoardBorders(){
+            for(let column = 0; column < WIDTH; column++){
+                this.board[0][column].borderTop = true;
+                this.board[HEIGHT-1][column].borderBottom = true;
             }
-            for(let zeile = 0; zeile < HOEHE; zeile++){
-                this.board[zeile][0].rahmenLinks = true;
-                this.board[zeile][BREITE-1].rahmenRechts = true;
+            for(let row = 0; row < HEIGHT; row++){
+                this.board[row][0].borderLeft = true;
+                this.board[row][WIDTH-1].borderRight = true;
             }
         },
-        layrinthSetzen(){
-            for(let zeile = 0; zeile < HOEHE; zeile++){                
-                for(let spalte = 0; spalte < BREITE; spalte++){
-                    if(Math.random()<WAHRSCHEINLICHKEIT){
-                        this.board[zeile][spalte].rahmenOben = true;
+        setCellBorders(){
+            for(let row = 0; row < HEIGHT; row++){                
+                for(let column = 0; column < WIDTH; column++){
+                    if(Math.random()<PROBABILITY){
+                        this.board[row][column].borderTop = true;
                     }                    
-                    if(Math.random()<WAHRSCHEINLICHKEIT){
-                        this.board[zeile][spalte].rahmenRechts = true;
+                    if(Math.random()<PROBABILITY){
+                        this.board[row][column].borderRight = true;
                     }                    
-                    if(Math.random()<WAHRSCHEINLICHKEIT){
-                        this.board[zeile][spalte].rahmenUnten = true;
+                    if(Math.random()<PROBABILITY){
+                        this.board[row][column].borderBottom = true;
                     }                    
-                    if(Math.random()<WAHRSCHEINLICHKEIT){
-                        this.board[zeile][spalte].rahmenLinks = true;
+                    if(Math.random()<PROBABILITY){
+                        this.board[row][column].borderLeft = true;
                     }                    
                 }
             }
         },
-        nachbarnFinden(){
-            for(let zeile = 0; zeile < HOEHE; zeile++){                
-                for(let spalte = 0; spalte < BREITE; spalte++){
-                    const kasten = this.board[zeile][spalte];
+        findNeighbors(){
+            for(let row = 0; row < HEIGHT; row++){                
+                for(let column = 0; column < WIDTH; column++){
+                    const cell = this.board[row][column];
                     
-                    if(zeile>0){
-                        let oben = this.board[zeile-1][spalte];
-                        if(!kasten.rahmenOben && !oben.rahmenUnten){
-                            kasten.nachbarn.push(oben);
+                    if(row>0){
+                        let oben = this.board[row-1][column];
+                        if(!cell.borderTop && !oben.borderBottom){
+                            cell.neighbors.push(oben);
                         }
                     } 
                     
-                    if(spalte<BREITE-1){
-                        let rechts = this.board[zeile][spalte+1];
-                        if(!kasten.rahmenRechts && !rechts.rahmenLinks){
-                            kasten.nachbarn.push(rechts);
+                    if(column<WIDTH-1){
+                        let rechts = this.board[row][column+1];
+                        if(!cell.borderRight && !rechts.borderLeft){
+                            cell.neighbors.push(rechts);
                         }
                     }                     
                     
-                    if(zeile<HOEHE-1){
-                        let unten = this.board[zeile+1][spalte];
-                        if(!kasten.rahmenUnten && !unten.rahmenOben){
-                            kasten.nachbarn.push(unten);
+                    if(row<HEIGHT-1){
+                        let unten = this.board[row+1][column];
+                        if(!cell.borderBottom && !unten.borderTop){
+                            cell.neighbors.push(unten);
                         }
                     } 
                     
-                    if(spalte>0){
-                        let links = this.board[zeile][spalte-1];
-                        if(!kasten.rahmenLinks && !links.rahmenRechts){
-                            kasten.nachbarn.push(links);
+                    if(column>0){
+                        let links = this.board[row][column-1];
+                        if(!cell.borderLeft && !links.borderRight){
+                            cell.neighbors.push(links);
                         }
                     }                     
                 }
             }
         },
-        labyrinthLoesenDFS(){
+        findPathDFS(){
             const start = this.board[0][0];
-            const ziel = this.board[HOEHE-1][BREITE-1];
+            const destination = this.board[HEIGHT-1][WIDTH-1];
 
-            let aktuell = start;            
-            this.stack.push(aktuell);
-            while(this.stack.length>0 && aktuell!==ziel){                
-                aktuell = this.stack.pop();
+            let current = start;            
+            this.stack.push(current);
+            while(this.stack.length>0 && current!==destination){                
+                current = this.stack.pop();
 
-                if(aktuell.zustand != 'X'){ // noch nicht besucht
-                    aktuell.zustand = 'X';
+                if(current.state != 'X'){ // not visited
+                    current.state = 'X';
                     
-                    while(aktuell.nachbarn.length > 0){
-                        const nachbar = aktuell.nachbarn.pop();
+                    while(current.neighbors.length > 0){
+                        const nachbar = current.neighbors.pop();
                         this.stack.push(nachbar);
                     }
                 }                           
             };
-            if(aktuell===ziel){
-                this.gefunden = true;
+            if(current===destination){
+                this.pathExists = true;
             }          
         }
     },
     mounted(){     
-        // Leeres Board   
-        for(let zeile = 0; zeile < HOEHE; zeile++){
-            this.board[zeile] = [];
-            for(let spalte = 0; spalte < BREITE; spalte++){
-                this.board[zeile].push(new Kasten());
+        // Empty board   
+        for(let row = 0; row < HEIGHT; row++){
+            this.board[row] = [];
+            for(let column = 0; column < WIDTH; column++){
+                this.board[row].push(new Cell());
             }
         }
-        this.rahmenSetzen();
-        this.layrinthSetzen();
-        this.nachbarnFinden();
-        this.labyrinthLoesenDFS();
+        this.setBoardBorders();
+        this.setCellBorders();
+        this.findNeighbors();
+        this.findPathDFS();
     }
 };
 Vue.createApp(App).mount('#app');
