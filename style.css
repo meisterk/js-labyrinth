@@ -8,6 +8,7 @@ table{
     font-size: 0.7em;
     box-shadow: 0.5em 0.5em 5px gray;
     background-color:ghostwhite;
+    margin-bottom: 0.5em;
 }
 
 .start {
@@ -43,4 +44,11 @@ td {
 }
 .border-left {
     border-left: solid 2px black;
+}
+
+button {
+    background-color: green;
+    color: white;
+    border-radius: 0.1em;
+    font-size: 0.8em;
 }

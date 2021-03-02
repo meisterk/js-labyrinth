@@ -23,8 +23,15 @@
             </tr>
             <tr><th v-bind:colspan="boardwidth" class="destination">ZIEL</th></tr>
         </table>
+
+        <button @click="onButtonNew">Neues Labyrinth</button>
+        <button @click="onButtonEmpty">Labyrinth leeren</button>
+        <button @click="onButtonDFS">DFS</button> 
+        <button @click="onButtonBFS">BFS</button>
+
         <p v-if="pathExists">Ich habe einen Weg gefunden!</p>
         <p v-else>Es gibt leider keinen Weg.</p>
+        
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script src="app.js"></script>

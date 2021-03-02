@@ -42,6 +42,13 @@ const App = {
                 }
             }
         },
+        emptyVisited(){
+            for(let row = 0; row < HEIGHT; row++){                
+                for(let column = 0; column < WIDTH; column++){
+                    this.board[row][column].visited = false;
+                }
+            }
+        },
         setBoardBorders(){
             for(let column = 1; column < WIDTH; column++){
                 this.board[0][column].borderTop = true;                
@@ -150,6 +157,28 @@ const App = {
             }else{
                 this.pathExists = false;
             }          
+        },
+        onButtonNew(){
+            this.createEmptyBoard();
+            this.setBoardBorders();
+            this.setCellBorders();
+        },
+        onButtonEmpty(){
+            this.emptyVisited();
+        },
+        onButtonDFS(){
+            this.emptyVisited();
+            const start = this.board[0][0];
+            const destination = this.board[HEIGHT-1][WIDTH-1];
+            this.findNeighbors();
+            this.findPathDFS(start, destination);
+        },
+        onButtonBFS(){
+            this.emptyVisited();
+            const start = this.board[0][0];
+            const destination = this.board[HEIGHT-1][WIDTH-1];
+            this.findNeighbors();
+            this.findPathBFS(start, destination);
         }
     },
     mounted(){     
