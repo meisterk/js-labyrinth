@@ -58,13 +58,13 @@ const App = {
         setCellBorders(){
             for(let row = 0; row < HEIGHT; row++){                
                 for(let column = 0; column < WIDTH; column++){
-                    if(Math.random()<PROBABILITY){
+                    if(Math.random()<PROBABILITY && column>0){
                         this.board[row][column].borderTop = true;
                     }                    
                     if(Math.random()<PROBABILITY){
                         this.board[row][column].borderRight = true;
                     }                    
-                    if(Math.random()<PROBABILITY){
+                    if(Math.random()<PROBABILITY && column<HEIGHT-1){
                         this.board[row][column].borderBottom = true;
                     }                    
                     if(Math.random()<PROBABILITY){
