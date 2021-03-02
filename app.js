@@ -95,23 +95,25 @@ const App = {
                 }
             }
         },
-        findPathDFS(start, destination){
+        findPathDFS(start, destination){            
             let current = start;            
             this.stack.push(current);
+
             while(this.stack.length>0 && current!==destination){                
                 current = this.stack.pop();
 
                 if(current.state != 'X'){ // not visited
-                    current.state = 'X';
-                    
-                    while(current.neighbors.length > 0){
-                        const nachbar = current.neighbors.pop();
-                        this.stack.push(nachbar);
-                    }
+                    current.state = 'X';                   
+
+                    current.neighbors.forEach(neighbor => {
+                        this.stack.push(neighbor);
+                    });                    
                 }                           
             };
             if(current===destination){
                 this.pathExists = true;
+            }else{
+                this.pathExists = false;
             }          
         }
     },
