@@ -23,6 +23,15 @@ const App = {
         }
     },
     methods:{
+        createEmptyBoard(){
+            this.board = [];
+            for(let row = 0; row < HEIGHT; row++){
+                this.board[row] = [];
+                for(let column = 0; column < WIDTH; column++){
+                    this.board[row].push(new Cell());
+                }
+            }
+        },
         setBoardBorders(){
             for(let column = 0; column < WIDTH; column++){
                 this.board[0][column].borderTop = true;
@@ -110,13 +119,7 @@ const App = {
         }
     },
     mounted(){     
-        // Empty board   
-        for(let row = 0; row < HEIGHT; row++){
-            this.board[row] = [];
-            for(let column = 0; column < WIDTH; column++){
-                this.board[row].push(new Cell());
-            }
-        }
+        this.createEmptyBoard();        
         this.setBoardBorders();
         this.setCellBorders();
         this.findNeighbors();
