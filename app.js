@@ -1,6 +1,8 @@
 const WIDTH = 20;
 const HEIGHT = 20;
 const PROBABILITY = 0.21;
+const STATE_VISITED = '⋅';
+const STATE_NOT_VISITED = ' ';
 
 class Cell {
     constructor(){
@@ -10,7 +12,7 @@ class Cell {
         this.borderLeft = false;
         
         this.neighbors = [];
-        this.state = '⋅'; // '.' = not visited, 'X' = visited       
+        this.state = STATE_NOT_VISITED;
     }
 }
 
@@ -102,8 +104,8 @@ const App = {
             while(this.stack.length>0 && current!==destination){                
                 current = this.stack.pop();
 
-                if(current.state != 'X'){ // not visited
-                    current.state = 'X';                   
+                if(current.state != STATE_VISITED){
+                    current.state = STATE_VISITED;                   
 
                     current.neighbors.forEach(neighbor => {
                         this.stack.push(neighbor);
