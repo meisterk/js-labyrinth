@@ -6,22 +6,32 @@ table{
     box-sizing: border-box;
     border-collapse: collapse;
     font-size: 0.7em;
+    box-shadow: 0.5em 0.5em 5px gray;
+    background-color:ghostwhite;
 }
 
 .start {
     text-align: left;
+    border-top: solid 2px black;
+    border-left: solid 2px black;
+    border-right: solid 2px black;
+    height: 1.5em;
 }
 
 .destination {
     text-align: right;
+    border-bottom: solid 2px black;
+    border-left: solid 2px black;
+    border-right: solid 2px black;
+    height: 1.5em;
 }
 
 td {
     width: 1.5em;
-    height: 1.5em;
-    background-color:ghostwhite;
+    height: 1.5em;    
     text-align: center;
 }
+
 .border-top {
     border-top: solid 2px black;
 }
