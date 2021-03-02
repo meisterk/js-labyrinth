@@ -95,10 +95,7 @@ const App = {
                 }
             }
         },
-        findPathDFS(){
-            const start = this.board[0][0];
-            const destination = this.board[HEIGHT-1][WIDTH-1];
-
+        findPathDFS(start, destination){
             let current = start;            
             this.stack.push(current);
             while(this.stack.length>0 && current!==destination){                
@@ -119,11 +116,16 @@ const App = {
         }
     },
     mounted(){     
+        // Create Labyrinth
         this.createEmptyBoard();        
         this.setBoardBorders();
         this.setCellBorders();
         this.findNeighbors();
-        this.findPathDFS();
+
+        // Find path from start to destination
+        const start = this.board[0][0];
+        const destination = this.board[HEIGHT-1][WIDTH-1];
+        this.findPathDFS(start, destination);
     }
 };
 Vue.createApp(App).mount('#app');
