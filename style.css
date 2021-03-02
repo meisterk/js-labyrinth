@@ -5,6 +5,7 @@ body {
 table{
     box-sizing: border-box;
     border-collapse: collapse;
+    font-size: 0.7em;
 }
 td {
     width: 1.5em;
