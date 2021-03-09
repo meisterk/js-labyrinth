@@ -1,8 +1,10 @@
 const WIDTH = 20;
 const HEIGHT = 20;
 const PROBABILITY = 0.21;
-const SYMBOL_VISITED = '\uD83D\uDE42'; // :)
+
 const SYMBOL_NOT_VISITED = '⋅';
+const SYMBOL_SHORTEST_PATH = '\uD83D\uDE42'; // :)
+const SYMBOL_VISITED = '\uD83E\uDDCA'; // ice
 
 class Cell {
     constructor(){
@@ -16,6 +18,9 @@ class Cell {
     }
 
     getSymbol(){
+        if(this.belongsToShortestPath){
+            return SYMBOL_SHORTEST_PATH;
+        }
         if(this.visited){
             return SYMBOL_VISITED;
         }else{
@@ -158,6 +163,37 @@ const App = {
                 this.pathExists = false;
             }          
         },
+        findShortestPathBFS(start, destination){   
+            const queue = [];         
+            let current = start;            
+            queue.push(current); // enqueue
+            current.visited = true;
+
+            while(queue.length > 0 && current!==destination){                
+                current = queue.shift(); // dequeue                                 
+
+                current.neighbors.forEach(neighbor => {
+                    if(!neighbor.visited){
+                        queue.push(neighbor); // enqueue
+                        neighbor.visited = true;
+                        neighbor.predecessor = current; // save predecessor for shortest path
+                    }                    
+                });                                              
+            };
+            if(current===destination){
+                this.pathExists = true;
+                const shortestPath = [];
+                shortestPath.push(current);
+                current.belongsToShortestPath = true;
+                while(current.predecessor){
+                    current = current.predecessor;
+                    current.belongsToShortestPath = true;
+                    shortestPath.push(current);
+                }
+            }else{
+                this.pathExists = false;
+            }          
+        },
         onButtonNew(){
             this.createEmptyBoard();
             this.setBoardBorders();
@@ -178,7 +214,7 @@ const App = {
             const start = this.board[0][0];
             const destination = this.board[HEIGHT-1][WIDTH-1];
             this.findNeighbors();
-            this.findPathBFS(start, destination);
+            this.findShortestPathBFS(start, destination);
         }
     },
     mounted(){     
