@@ -11,10 +11,11 @@ class Cell {
         this.borderTop = false;
         this.borderRight = false;
         this.borderBottom = false;
-        this.borderLeft = false;
+        this.borderLeft = false;        
         
+        this.neighbors = [];
         this.visited = false;
-        this.neighbors = [];        
+        this.belongsToShortestPath = false;        
     }
 
     getSymbol(){
@@ -51,6 +52,7 @@ const App = {
             for(let row = 0; row < HEIGHT; row++){                
                 for(let column = 0; column < WIDTH; column++){
                     this.board[row][column].visited = false;
+                    this.board[row][column].belongsToShortestPath = false;
                 }
             }
         },
@@ -222,12 +224,7 @@ const App = {
         this.createEmptyBoard();        
         this.setBoardBorders();
         this.setCellBorders();
-        this.findNeighbors();
-
-        // Find path from start to destination
-        const start = this.board[0][0];
-        const destination = this.board[HEIGHT-1][WIDTH-1];
-        this.findPathBFS(start, destination);
+        this.findNeighbors();       
     }
 };
 Vue.createApp(App).mount('#app');
